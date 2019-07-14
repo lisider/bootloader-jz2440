@@ -10,13 +10,13 @@ int isBootFromNorFlash(void)
 	*p = 0x12345678;
 	if (*p == 0x12345678)
 	{
-		/* Ğ´³É¹¦, ÊÇnandÆô¶¯ */
+		/* å†™æˆåŠŸ, æ˜¯nandå¯åŠ¨ */
 		*p = val;
 		return 0;
 	}
 	else
 	{
-		/* NOR²»ÄÜÏñÄÚ´æÒ»ÑùĞ´ */
+		/* NORä¸èƒ½åƒå†…å­˜ä¸€æ ·å†™ */
 		return 1;
 	}
 }
@@ -25,7 +25,7 @@ void copy_code_to_sdram(unsigned char *src, unsigned char *dest, unsigned int le
 {
 	int i = 0;
 
-	/* Èç¹ûÊÇNORÆô¶¯ */
+	/* å¦‚æœæ˜¯NORå¯åŠ¨ */
 	if (isBootFromNorFlash())
 	{
 		while (i < len)

@@ -6,29 +6,29 @@
 .global _start
 _start:
 
-/* 1. ¹Ø¿´ÃÅ¹· */
+/* 1. å…³çœ‹é—¨ç‹— */
 	ldr r0, =0x53000000
 	mov r1, #0
 	str r1, [r0]
 
-/* 2. ÉèÖÃÊ±ÖÓ */
+/* 2. è®¾ç½®æ—¶é’Ÿ */
 	ldr r0, =0x4c000014
 	mov r1, #0x03;            // FCLK:HCLK:PCLK=1:2:4, HDIVN=1,PDIVN=1
 	str r1, [r0]
 
-	/* Èç¹ûHDIVN·Ç0£¬CPUµÄ×ÜÏßÄ£Ê½Ó¦¸Ã´Ó¡°fast bus mode¡±±äÎª¡°asynchronous bus mode¡± */
-	mrc	p15, 0, r1, c1, c0, 0		/* ¶Á³ö¿ØÖÆ¼Ä´æÆ÷ */
-	orr	r1, r1, #0xc0000000			/* ÉèÖÃÎª¡°asynchronous bus mode¡± */
-	mcr	p15, 0, r1, c1, c0, 0		/* Ğ´Èë¿ØÖÆ¼Ä´æÆ÷ */
+	/* å¦‚æœHDIVNé0ï¼ŒCPUçš„æ€»çº¿æ¨¡å¼åº”è¯¥ä»â€œfast bus modeâ€å˜ä¸ºâ€œasynchronous bus modeâ€ */
+	mrc	p15, 0, r1, c1, c0, 0		/* è¯»å‡ºæ§åˆ¶å¯„å­˜å™¨ */
+	orr	r1, r1, #0xc0000000			/* è®¾ç½®ä¸ºâ€œasynchronous bus modeâ€ */
+	mcr	p15, 0, r1, c1, c0, 0		/* å†™å…¥æ§åˆ¶å¯„å­˜å™¨ */
 
 	/* MPLLCON = S3C2440_MPLL_200MHZ */
 	ldr r0, =0x4c000004
 	ldr r1, =S3C2440_MPLL_200MHZ
 	str r1, [r0]
 
-/* 3. ³õÊ¼»¯SDRAM */
+/* 3. åˆå§‹åŒ–SDRAM */
 	ldr r0, =MEM_CTL_BASE
-	adr r1, sdram_config     /* sdram_configµÄµ±Ç°µØÖ· */
+	adr r1, sdram_config     /* sdram_configçš„å½“å‰åœ°å€ */
 	add r3, r0, #(13*4)
 1:
 	ldr r2, [r1], #4
@@ -36,7 +36,7 @@ _start:
 	cmp r0, r3
 	bne 1b
 
-/* 4. ÖØ¶¨Î» : °Ñbootloader±¾ÉíµÄ´úÂë´Óflash¸´ÖÆµ½ËüµÄÁ´½ÓµØÖ·È¥ */
+/* 4. é‡å®šä½ : æŠŠbootloaderæœ¬èº«çš„ä»£ç ä»flashå¤åˆ¶åˆ°å®ƒçš„é“¾æ¥åœ°å€å» */
 	ldr sp, =0x34000000
 
 	bl nand_init
@@ -49,7 +49,7 @@ _start:
 	bl copy_code_to_sdram
 	bl clear_bss
 
-/* 5. Ö´ĞĞmain */
+/* 5. æ‰§è¡Œmain */
 	ldr lr, =halt
 	ldr pc, =main
 halt:
